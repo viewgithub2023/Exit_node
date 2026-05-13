@@ -81,7 +81,8 @@ function sanitizeHeaders(h: unknown): Record<string, string> {
   return out;
 }
 
-export default async function (req: Request): Promise<Response> {
+// تغییر کلیدی برای دیپلوی گیت‌هاب: تبدیل export به Deno.serve
+Deno.serve(async function (req: Request): Promise<Response> {
   // Fail closed on the placeholder PSK so a fresh deploy without setup
   // can't accidentally serve as an open relay.
   if (PSK === "CHANGE_ME_TO_A_STRONG_SECRET") {
@@ -172,4 +173,4 @@ export default async function (req: Request): Promise<Response> {
     const message = err instanceof Error ? err.message : String(err);
     return Response.json({ e: message }, { status: 500 });
   }
-}
+});
